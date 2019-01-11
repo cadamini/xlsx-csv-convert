@@ -20,20 +20,25 @@ The modifier returns only arrays which can be used to build new csv files
 
 #### Now there a couple of methods
 
-* source.duplicate 
+* `source.duplicate`  
+
 Mirrors the content of the file
 
-* source.new_default_column_value(value)
+* `source.new_default_column_value(value)`  
+
 Add a value in a new column to all rows
 
-* source.update_value_by_value_at_column(source_content:, column_position:)
+* `source.update_value_by_value_at_column(source_content:, column_position:)`  
+
 Read the very same cell (row+column) from another file and update the first, 
 this is only working for now when the files have the same size.
 
-* source.remove_quotation_marks
+* `source.remove_quotation_marks`  
+
 This method removes the quote values via force_quotes: false
 
-* source.change_separator_to(separator:)
+* `source.change_separator_to(separator:)`  
+
 Changes the separator to the defined one.
 
 * source.remove_headers(lines:)

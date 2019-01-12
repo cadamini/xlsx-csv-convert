@@ -1,3 +1,4 @@
-source 'https://www.rubygems.org' do 
-	gem 'rspec'
+source 'https://www.rubygems.org' do
+  gem 'rspec'
+  gem 'rubocop'
 end

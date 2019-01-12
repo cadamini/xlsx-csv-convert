@@ -19,7 +19,11 @@ class Modifier
   # rework, format must be the same currently
   def add_remote_cell_value(source_content:, column_position:)
     file_content.each_with_index do |line, index|
+      if source_content[column_position].nil? 
+        raise "column index #{column_position} out of bounds" 
+      end
       line << source_content[index][column_position]
+
     end
   end
 

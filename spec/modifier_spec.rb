@@ -22,8 +22,15 @@ RSpec.describe 'Modifier' do
   end
 
   it 'updates a file by column value from another source file' do    
-    expect(modifier.add_remote_cell_value(source_content: [[0, 2], [0, 4]], column_position: 1)
+    expect(modifier.add_remote_cell_value(
+      source_content: [[0, 2], [0, 4]], column_position: 1)
     ).to eq [["col1", "col2", 2], ["col1", "col2", 4]]
+  end
+
+  it 'tries to update a cell with a wrong col index' do 
+    expect{modifier.add_remote_cell_value(
+      source_content: [[0, 2], [0, 4]], column_position: 2
+    )}.to raise_error "column index 2 out of bounds"
   end
 
   it 'updates a hh:mm:ss time to seconds' do

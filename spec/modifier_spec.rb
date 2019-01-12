@@ -22,7 +22,7 @@ RSpec.describe 'Modifier' do
   end
 
   it 'updates a file by column value from another source file' do    
-    expect(modifier.update_value_by_value_at_column(source_content: [[0, 2], [0, 4]], column_position: 1)
+    expect(modifier.add_remote_cell_value(source_content: [[0, 2], [0, 4]], column_position: 1)
     ).to eq [["col1", "col2", 2], ["col1", "col2", 4]]
   end
 

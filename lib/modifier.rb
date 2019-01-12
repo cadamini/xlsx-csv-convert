@@ -1,3 +1,4 @@
+
 class Modifier
   attr_reader :file_content
 
@@ -16,7 +17,7 @@ class Modifier
   end
 
   # rework, format must be the same currently
-  def update_value_by_value_at_column(source_content:, column_position:)
+  def add_remote_cell_value(source_content:, column_position:)
     file_content.each_with_index do |line, index|
       line << source_content[index][column_position]
     end

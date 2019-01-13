@@ -1,14 +1,16 @@
 require 'rubocop/rake_task'
 require 'rspec/core/rake_task'
 
-task :default => [:rubocop, :test]
+task default: %i[rubocop test]
 
 desc 'Run tests'
-task(:test) do
-  RSpec::Core::RakeTask.new(:spec)
+task(:test) do 
+RSpec::Core::RakeTask.new(:spec)
 end
 
 desc 'Run rubocop'
 task :rubocop do
-  RuboCop::RakeTask.new
+  RuboCop::RakeTask.new do |task|
+    task.requires << 'rubocop-rspec'
+  end
 end

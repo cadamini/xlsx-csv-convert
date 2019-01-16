@@ -1,6 +1,8 @@
 # Canyon xlsx File parser Version 0.1 (beta)
 
 require 'roo'
+require 'pathname'
+require 'date'
 
 class Converter
   class << self
@@ -11,7 +13,7 @@ class Converter
     end
 
     def convert_canyon_call_csv_to_injixo_format(csv_file:)
-      File.open("./export/#{Time.now}-converted-export-file.csv", 'w+') do |f|
+      File.open(Pathname.new("export").join("#{Date.today}-converted-export-file.csv"), 'w+') do |f|
         csv = read(csv_file)
         convert(csv, f)
       end

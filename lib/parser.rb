@@ -12,7 +12,7 @@ class Parser
 
   def parse(lines: [])
     @file.each_with_index do |row, row_num|
-      next if date_row_empty?(row)
+      next if empty_date?(row)
       begin
         lines << insert_lines(row, column_positions)
       rescue ArgumentError => e
@@ -30,7 +30,7 @@ class Parser
          "parsing failed in column #{column_positions[:date]}\n#{row}"
   end
 
-  def date_row_empty?(row)
+  def empty_date?(row)
     row[column_positions[:date]].nil?
   end
 

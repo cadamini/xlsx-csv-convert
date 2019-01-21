@@ -14,7 +14,7 @@ class Parser
     @file.each_with_index do |row, row_num|
       next if empty_date?(row)
       begin
-        lines << insert_lines(row, col_idx)
+        lines << new_format(row, col_idx)
       rescue ArgumentError => e
         print_warnings(row_num, e)
         next
@@ -34,7 +34,7 @@ class Parser
     row[col_idx[:date]].nil?
   end
 
-  def insert_lines(row, col_idx)
+  def new_format(row, col_idx)
     if @target_format == :injixo
       line = Line.new(row, col_idx).injixo_format
     elsif @target_format == :injixo_comma_separated

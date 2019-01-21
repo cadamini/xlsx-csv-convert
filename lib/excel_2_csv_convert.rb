@@ -50,8 +50,4 @@ class Excel2CsvConvert
       filename: filename, temp_file: "#{filename}.temp"
     ).generate_temp_file
   end
-
-  def parse(cell)
-    DateTime.parse(cell)
-  end
 end

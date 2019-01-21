@@ -23,9 +23,9 @@ class Excel2CsvConvert
   def run
     Dir.glob(@import_path).each do |filename|
       puts "Reading #{filename} ..."
-      temp_file = create_temp_file_for(filename)
-      export_csv_file(read_and_convert(temp_file), filename)
-      File.delete(temp_file) unless @keep_tempfile
+      temp_file_name = create_temp_file_for(filename)
+      export_csv_file(read_and_convert(temp_file_name), filename)
+      File.delete(temp_file_name) unless @keep_tempfile
     end
   end
 
@@ -48,6 +48,6 @@ class Excel2CsvConvert
   def create_temp_file_for(filename)
     RooClient.new(
       xlsx_file: filename, temp_file: "#{filename}.temp"
-    ).generate_temp_file
+    ).temp_csv_file
   end
 end

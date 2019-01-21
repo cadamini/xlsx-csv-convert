@@ -14,9 +14,8 @@ class RooClient
     Roo::CSV.new(@temp_file, csv_options: { col_sep: ';', quote_char: '|' })
   end
 
-  def generate_temp_file
-    xlsx_file = read_xlsx_file
-    xlsx_file.to_csv(@temp_file, ';')
+  def temp_csv_file
+    read_xlsx_file.to_csv(@temp_file, ';')
     @temp_file
   end
 end

@@ -19,11 +19,7 @@ class Exporter
 
   private
 
-  def original_file_name
-    File.basename(@filename)
-  end
-
   def destination_file
-    Pathname.new(@export_path).join(original_file_name)
+    Pathname.new(@export_path).join(File.basename(@filename))
   end
 end

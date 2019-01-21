@@ -3,7 +3,7 @@ require 'pathname'
 require 'date'
 require 'fileutils'
 
-require_relative 'xlsx_converter'
+require_relative 'roo_client'
 require_relative 'parser'
 require_relative 'exporter'
 
@@ -46,8 +46,8 @@ class Excel2CsvConvert
   end
 
   def create_temp_file_for(filename)
-    XlsxConverter.new(
-      filename: filename, temp_file: "#{filename}.temp"
+    RooClient.new(
+      xlsx_file: filename, temp_file: "#{filename}.temp"
     ).generate_temp_file
   end
 end

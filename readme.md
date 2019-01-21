@@ -1,45 +1,38 @@
-**Please note, this is work in progress and really basic as I use this to learn tdd and ruby, please feel free to contribute via pull requests or let me know what I can inmprove.**
 
-TODO: Current classes / methods loop through the complete file content and change one thing, it will be better to have a single loop with several operations at once.  
+# xlsx File parser Version 0.3 (beta)
+
+> This project is work in progress. I use this to learn TDD and object-oriented ruby
 
 ## Usage Instructions
 
-#### Read a file and file @content
+- 1. install ruby
+- 2. copy this package into a folder
+- 3. start ruby run.rb
 
-file = Reader.new(filename: 'yourfilename.csv')
+## Example
+The file run.rb contains an example how to run the converter
 
-#### Find a value in the sheet
+```
+options = {
+  column_positions: {
+    date: 5,
+    queue_name: 3,
+    handling_time: [6, 7] # mutiple elements or integer
+  },
+  target_format: :injixo, # or :injixo_comma_separated
+  # more options (optional)
+  keep_tempfile: false,  # default false
+  import_path: 'import', # default 'import'
+  export_path: 'export'  # default 'export'
+}
+Excel2CsvConvert.new(options).run
+```
 
-file.value_at(row: 1, column: 1)
+## Hints
 
-#### Initiate the modifier with @content from the reader
+1. Any other conversion would use a different import folder due to different format
+2. Column numbers are currently starting at 0, so the second column would be 1.
 
-The modifier returns only arrays which can be used to build new csv files
+## Contribution 
 
-`source = Modifier.new(file_content: file.content)`
-
-#### Now there a couple of methods
-
-* `source.duplicate`  
-
-Mirrors the content of the file
-
-* `source.new_default_column_value(value)`  
-
-Add a value in a new column to all rows
-
-* `source.update_value_by_value_at_column(source_content:, column_position:)`  
-
-Read the very same cell (row+column) from another file and update the first, 
-this is only working for now when the files have the same size.
-
-* `source.remove_quotation_marks`  
-
-This method removes the quote values via force_quotes: false
-
-* `source.change_separator_to(separator:)`  
-
-Changes the separator to the defined one.
-
-* source.remove_headers(lines:)
-Removes a certain number of lines from the top of the file. 
+Feel free to contribute via pull requests or let me know what I can inmprove in issues.

@@ -35,7 +35,7 @@ class Excel2CsvConvert
     Parser.new(
       target_format: @target_format,
       file: RooClient.new(temp_file: temp_file).read_temp_file,
-      column_positions: @column_positions
+      col_idx: @column_positions
     ).parse
   end
 

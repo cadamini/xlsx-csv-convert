@@ -2,12 +2,12 @@ require 'date'
 
 class Line
   attr_reader :queue_name, :date_part, :time_part, :handling_time,
-              :row, :separator, :column_positions
+              :row, :separator, :col_idx
 
-  def initialize(row, column_positions, separator: ';')
+  def initialize(row, col_idx, separator: ';')
     @row = row
-    @queue_name = row[column_positions[:queue_name]].delete('"')
-    @column_positions = column_positions
+    @queue_name = row[col_idx[:queue_name]].delete('"')
+    @col_idx = col_idx
     @handling_time = build_handling_time(row)
     @separator = separator   
   end
@@ -25,20 +25,20 @@ class Line
   private
 
   def build_handling_time(row)
-    if column_positions[:handling_time].is_a?(Array)
-      values = column_positions[:handling_time].map { |i| row[i].to_i }
+    if col_idx[:handling_time].is_a?(Array)
+      values = col_idx[:handling_time].map { |i| row[i].to_i }
       values.reduce(0, :+)
     else
-      row[column_positions[:handling_time]].to_i
+      row[col_idx[:handling_time]].to_i
     end
   end
 
   def parsed_date
-    parse(row[column_positions[:date]]).strftime('%Y-%m-%d')
+    parse(row[col_idx[:date]]).strftime('%Y-%m-%d')
   end
 
   def parsed_time
-    parse(row[column_positions[:date]]).strftime('%H:%M:%S')
+    parse(row[col_idx[:date]]).strftime('%H:%M:%S')
   end
 
   # extract?

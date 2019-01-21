@@ -9,10 +9,14 @@ require_relative 'exporter'
 
 class Excel2CsvConvert
   attr_reader :column_positions
-  def initialize(target_format: :injixo, keep_tempfile: false,
+  def initialize(target_format: :injixo, 
+                 keep_tempfile: false,
+                 import_path: 'import', 
+                 export_path: 'export',
                  column_positions: {
                    date: 5, queue_name: 3, handling_time: [6, 7]
-                 }, import_path: 'import', export_path: 'export')
+                 }, 
+    )
     @target_format = target_format
     @column_positions = column_positions
     @keep_tempfile = keep_tempfile

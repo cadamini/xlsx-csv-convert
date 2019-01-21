@@ -7,9 +7,9 @@ class Line
   def initialize(row, column_positions, separator: ';')
     @row = row
     @queue_name = row[column_positions[:queue_name]].delete('"')
-    @handling_time = sum_up_handling_time_array_elements(row, column_positions)
-    @separator = separator
     @column_positions = column_positions
+    @handling_time = build_handling_time(row)
+    @separator = separator   
   end
 
   # TODO: more flexible creation with Builder class?
@@ -24,7 +24,7 @@ class Line
 
   private
 
-  def sum_up_handling_time_array_elements(row, column_positions)
+  def build_handling_time(row)
     if column_positions[:handling_time].is_a?(Array)
       values = column_positions[:handling_time].map { |i| row[i].to_i }
       values.reduce(0, :+)

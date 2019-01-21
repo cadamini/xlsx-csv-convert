@@ -15,7 +15,7 @@ class Excel2CsvConvert
                  export_path: 'export',
                  column_positions: {
                    date: 5, queue_name: 3, handling_time: [6, 7]
-                 }, 
+                 }
     )
     @target_format = target_format
     @column_positions = column_positions

@@ -1,6 +1,4 @@
-require 'roo'
 require 'pathname'
-require 'date'
 require 'fileutils'
 
 require_relative 'roo_client'

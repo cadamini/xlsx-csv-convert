@@ -1,19 +1,19 @@
 require_relative 'line'
 
 class Parser
-  attr_reader :col_idx, :row
+  attr_reader :column_index, :row
 
-  def initialize(target_format:, file:, col_idx:)
-    @target_format = target_format
+  def initialize(type:, file:, column_index:)
+    @type = type
     @file = file
-    @col_idx = col_idx
+    @column_index = column_index
   end
 
   def parse(lines: [])
     @file.each_with_index do |row, row_num|
       next if empty_date?(row)
       begin
-        lines << new_format(row, col_idx)
+        lines << new_format(row, column_index)
       rescue ArgumentError => e
         print_warnings(row_num, e)
         next
@@ -26,20 +26,20 @@ class Parser
 
   def print_warnings(row_num, e)
     puts "Skipped line #{row_num + 1} - #{e}," \
-         "parsing failed in column #{col_idx[:date]}\n#{row}"
+         "parsing failed in column #{column_index[:date]}\n#{row}"
   end
 
   def empty_date?(row)
-    row[col_idx[:date]].nil?
+    row[column_index[:date]].nil?
   end
 
-  def new_format(row, col_idx)
-    if @target_format == :injixo
-      line = Line.new(row, col_idx).injixo_format
-    elsif @target_format == :injixo_comma_separated
-      line = Line.new(row, col_idx, separator: ',').comma_separated
+  def new_format(row, column_index)
+    if @type == :injixo
+      line = Line.new(row, column_index).injixo_format
+    elsif @type == :injixo_comma_separated
+      line = Line.new(row, column_index, separator: ',').comma_separated
     else
-      raise "Unsupported format option -> #{@target_format}, use :injixo"
+      raise "Unsupported format option -> #{@type}, use :injixo"
     end
     line
   end

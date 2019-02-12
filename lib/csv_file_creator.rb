@@ -1,3 +1,7 @@
+require_relative 'roo_client'
+require_relative 'parser'
+require_relative 'exporter'
+
 class CSVFileCreator
   
   def initialize(filename:, columns:, export_path:)

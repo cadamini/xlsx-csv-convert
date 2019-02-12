@@ -1,9 +1,6 @@
 require 'pathname'
 require 'fileutils'
 
-require_relative 'roo_client'
-require_relative 'parser'
-require_relative 'exporter'
 require_relative 'file_reader'
 require_relative 'csv_file_creator'
 

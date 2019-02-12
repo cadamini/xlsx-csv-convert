@@ -1,25 +1,18 @@
 require 'date'
 
 class Line
-  attr_reader :queue_name, :date_part, :time_part, :handling_time,
+  attr_reader :queue_name, :date_part, :time_part,
               :row, :separator, :col_idx
 
-  def initialize(row, col_idx, separator: ';')
+  def initialize(row, col_idx)
     @row = row
     @queue_name = row[col_idx[:queue_name]].delete('"')
     @col_idx = col_idx
-    @handling_time = build_handling_time(row)
-    @separator = separator   
   end
 
-  # TODO: more flexible creation with Builder class?
   def injixo_format
-    "#{queue_name};#{parsed_date};#{parsed_time};#{handling_time};1"
-  end
-
-  def comma_separated
-    "#{queue_name}#{separator}#{parsed_date}#{separator}#{parsed_time}" \
-    "#{separator}#{handling_time}#{separator}1"
+    "#{queue_name};#{parse_date_time(format: '%Y-%m-%d')};" \
+    "#{parse_date_time(format: '%H:%M:%S')};#{build_handling_time(row)};1"
   end
 
   private
@@ -33,24 +26,7 @@ class Line
     end
   end
 
-  def parsed_date
-    parse(row[col_idx[:date]]).strftime('%Y-%m-%d')
-  end
-
-  def parsed_time
-    parse(row[col_idx[:date]]).strftime('%H:%M:%S')
-  end
-
-  # extract?
-  def convert_time_to_seconds
-    time_value = line[:date].split(':')
-    hours = time_value[0].to_i * 3600
-    minutes = time_value[1].to_i * 60
-    seconds = time_value[2].to_i
-    line[:date] = hours + minutes + seconds
-  end
-
-  def parse(cell)
-    DateTime.parse(cell)
+  def parse_date_time(format:)
+    DateTime.parse(row[col_idx[:date]]).strftime('%Y-%m-%d')
   end
 end

@@ -9,7 +9,7 @@ class Parser
     @column_index = column_index
   end
 
-  def parse(lines: [])
+  def formatted_lines(lines: [])
     @file.each_with_index do |row, row_num|
       next if empty_date?(row)
       begin
@@ -36,8 +36,6 @@ class Parser
   def new_format(row, column_index)
     if @type == :injixo
       line = Line.new(row, column_index).injixo_format
-    elsif @type == :injixo_comma_separated
-      line = Line.new(row, column_index, separator: ',').comma_separated
     else
       raise "Unsupported format option -> #{@type}, use :injixo"
     end

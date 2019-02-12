@@ -8,7 +8,7 @@ class Exporter
     @file = file
   end
 
-  def run
+  def create_export_file
     puts "Exported to: #{destination}"
     File.open(destination, 'w+') do |f|
       @lines.each do |line|

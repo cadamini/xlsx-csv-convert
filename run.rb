@@ -1,7 +1,7 @@
 require_relative 'lib/excel_2_csv_convert'
 
 options = {
-  column_positions: {
+  columns: {
     date: 5,
     queue_name: 3,
     handling_time: [6, 7] # mutiple elements or integer
@@ -10,4 +10,4 @@ options = {
   import_path: 'import', # default 'import'
   export_path: 'export'  # default 'export'
 }
-Excel2CsvConvert.new(options).run
+Excel2CsvConvert.run(options)

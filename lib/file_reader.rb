@@ -1,5 +1,5 @@
 class FileReader
-  def self.run(path)
+  def self.get_files_from(path)
     Dir.glob(path)
   end
 end

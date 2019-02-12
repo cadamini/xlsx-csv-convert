@@ -1,5 +1,5 @@
 
-# xlsx File parser Version 0.3 (beta)
+# xlsx File parser Version 0.4 (beta)
 
 > This project is work in progress. I use this to learn TDD and object-oriented ruby
 
@@ -14,18 +14,16 @@ The file run.rb contains an example how to run the converter
 
 ```
 options = {
-  column_positions: {
+  columns: {
     date: 5,
     queue_name: 3,
     handling_time: [6, 7] # mutiple elements or integer
   },
-  target_format: :injixo, # or :injixo_comma_separated
   # more options (optional)
-  keep_tempfile: false,  # default false
   import_path: 'import', # default 'import'
   export_path: 'export'  # default 'export'
 }
-Excel2CsvConvert.new(options).run
+Excel2CsvConvert.run(options)
 ```
 
 ## Hints

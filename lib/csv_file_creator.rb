@@ -1,39 +1,34 @@
 class CSVFileCreator
   
-  def initialize(filename:, target_format:, column_positions:, export_path:)
+  def initialize(filename:, columns:, export_path:)
   	@filename = filename
-  	@target_format = target_format
-  	@column_positions = column_positions
+  	@columns = columns
   	@export_path = export_path
   end
 
   def run
-  	parsed_file_content = parse(temp_file)
-    export(parsed_file_content, @filename)
-    File.delete(temp_file)
+    build_file(injixo_formatted(temp_file), @filename)
   end
 
   private
 
   def temp_file
-    RooClient.new(
-      source_file: @filename, temp_file: "#{@filename}.temp"
-    ).generate_temp_csv
+    RooClient.create(temp_file: "#{@filename}.temp", source_file: @filename)
   end
 
-  def parse(filename)
+  def injixo_formatted(temp_file)
     Parser.new(
-      type: @target_format,
-      file: RooClient.new(temp_file: filename).read,
-      column_index: @column_positions
-    ).parse
+      type: :injixo,
+      file: RooClient.read(temp_file: temp_file),
+      column_index: @columns
+    ).formatted_lines
   end
 
-   # TODO: Exporter still handles file creation on its own
-  def export(lines, filename)
+  def build_file(lines, filename)
     export = Exporter.new(
       lines: lines, export_path: @export_path,
       file: "#{filename}.export.#{Date.today}.csv")
-    export.run
+    export.create_export_file
+    File.delete(temp_file) # extract?
   end
 end

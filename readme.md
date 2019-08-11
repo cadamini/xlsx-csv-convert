@@ -19,7 +19,7 @@ options = {
     queue_name: 3,
     handling_time: [6, 7] # mutiple elements or integer
   },
-  target_format: :injixo, # or :injixo_comma_separated
+  target_format: :injixo,
   # more options (optional)
   keep_tempfile: false,  # default false
   import_path: 'import', # default 'import'

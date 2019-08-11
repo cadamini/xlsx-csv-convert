@@ -1,56 +1,59 @@
 require 'date'
 
 class Line
-  attr_reader :queue_name, :date_part, :time_part, :handling_time,
-              :row, :separator, :column_positions
+  attr_reader :row
 
-  def initialize(row, column_positions, separator: ';')
+  def initialize(row)
     @row = row
-    @queue_name = row[column_positions[:queue_name]].delete('"')
-    @handling_time = sum_up_handling_time_array_elements(row, column_positions)
-    @separator = separator
-    @column_positions = column_positions
+    @date_col_idx = columns[:date]
+    @queue_col_idx = columns[:queue_name]
+    @aht_col_index = columns[:handling_time]
   end
 
-  # TODO: more flexible creation with Builder class?
+  def invalid?
+    row[0].is_a?(String) || row[1].is_a?(String)
+  end
+
+  def empty?
+    row == [nil, nil, nil, nil, nil, nil, nil]
+  end
+
   def injixo_format
-    "#{queue_name};#{parsed_date};#{parsed_time};#{handling_time};1"
-  end
-
-  def comma_separated
-    "#{queue_name}#{separator}#{parsed_date}#{separator}#{parsed_time}" \
-    "#{separator}#{handling_time}#{separator}1"
+    "#{queue};#{date};#{time};#{build_handling_time_sum};1"
   end
 
   private
+  
+  # how to make it configurable for the user
+  def columns 
+    {
+      date: 4,
+      queue_name: 2,
+      handling_time: [6, 7] # mutiple elements or integer
+    }
+  end
 
-  def sum_up_handling_time_array_elements(row, column_positions)
-    if column_positions[:handling_time].is_a?(Array)
-      values = column_positions[:handling_time].map { |i| row[i].to_i }
-      values.reduce(0, :+)
+  def date 
+    row[@date_col_idx].strftime('%Y-%m-%d')
+  end
+
+  def time 
+    row[@date_col_idx].strftime('%H:%M:%S')
+  end
+
+  def queue
+    row[@queue_col_idx]
+  end
+
+  def handling_time
+     @aht_col_index
+  end
+
+  def build_handling_time_sum
+    if handling_time.is_a?(Array)
+      handling_time.map { |i| row[i].to_i }.reduce(0, :+) 
     else
-      row[column_positions[:handling_time]].to_i
+      row[handling_time].to_i
     end
-  end
-
-  def parsed_date
-    parse(row[column_positions[:date]]).strftime('%Y-%m-%d')
-  end
-
-  def parsed_time
-    parse(row[column_positions[:date]]).strftime('%H:%M:%S')
-  end
-
-  # extract?
-  def convert_time_to_seconds
-    time_value = line[:date].split(':')
-    hours = time_value[0].to_i * 3600
-    minutes = time_value[1].to_i * 60
-    seconds = time_value[2].to_i
-    line[:date] = hours + minutes + seconds
-  end
-
-  def parse(cell)
-    DateTime.parse(cell)
   end
 end
